@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+</br>
+{% if error == 401 %}
+<h1 style="text-align: center;"><strong>Вы не авторизованы!</strong></h1>
+<h3 style="text-align: center;"><strong>Чтобы перейти на данную страницу, вам необходимо авторизоваться или зарегестрироваться!</strong></h3>
+{% elif error == 404 %}
+<h1 style="text-align: center;"><strong>Упс</strong></h1>
+<h3 style="text-align: center;"><strong>Кажется такой страницы не существует.</strong></h3>
+<h4 style="text-align: center;"><strong>Чтобы решить эту проблему проверьте </strong><strong>правильность введённого URL-адреса.</strong></h4>
+<p>&nbsp;</p>
+{% elif error == 500 %}
+<h1 style="text-align: center;"><strong>Упс</strong></h1>
+<h3 style="text-align: center;"><strong>Кажется у нас произошла ошибка.</strong></h3>
+<h4 style="text-align: center;"><strong>Мы искрене просим прощения, наши специалисты уже занимаются ей.</strong></h4>
+<h4 style="text-align: center;"><strong>В ближайщее время мы все исправим, спасибо, что вы с нами!</strong></h4>
+{% endif %}
+<a class="btn btn-info " href="/" style="text-align: center;">Главная страница</a>
+{% endblock %}
