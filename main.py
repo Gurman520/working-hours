@@ -7,8 +7,9 @@ from forms.login_form import LoginForm
 # from forms.article_form import ArticleForm, EditArticleForm, AddTeg
 # from forms.message_form import MessageForm
 # from forms.news_form import NewsForm
-# from flask_restful import Api
-# import articles_resources
+from flask_restful import Api
+import hourse
+import logging
 # import user_resources
 # import news_resources
 # from requests import post, get, delete, put
@@ -18,10 +19,10 @@ from forms.login_form import LoginForm
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'my_secret_key'
-# api = Api(app)
+api = Api(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
-# imn = 2
+logger = logging.getLogger(__name__)
 
 
 @login_manager.user_loader
@@ -105,7 +106,7 @@ def not_found(error):
 def main():
     db_session.global_init("db/Work_gen_1.db")
     #
-    # api.add_resource(articles_resources.ArticleResource, '/api/v2/art/<int:art_id>')
+    api.add_resource(hourse.Hours, '/api/v1/hours')
     # api.add_resource(user_resources.UserResource, '/api/v2/user/<int:user_id>')
     #
     # api.add_resource(articles_resources.ArticleListResource, '/api/v2/list_art')
@@ -120,6 +121,7 @@ def main():
 
 if __name__ == '__main__':
     try:
+        logger.info("Start project")
         main()
     except Exception as e:
         print('Неожиданное завершение программы из-за ошибки:')
