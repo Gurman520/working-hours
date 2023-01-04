@@ -4,23 +4,24 @@ from flask_login import LoginManager, login_user, login_required, logout_user, c
 from data.tables import User, Tax, Work
 from forms.user_form import UserForm, UpdateUserForm
 from forms.login_form import LoginForm
-# from forms.article_form import ArticleForm, EditArticleForm, AddTeg
-# from forms.message_form import MessageForm
-# from forms.news_form import NewsForm
-# from flask_restful import Api
+from forms.hours import NewHours
+from flask_restful import Api
 # import articles_resources
-# import user_resources
+import hourse
 # import news_resources
-# from requests import post, get, delete, put
+from requests import post, get, delete, put
+
 # import markdown
 # from mail import MAIL
 # import TOKEN
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'my_secret_key'
-# api = Api(app)
+api = Api(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
+
+
 # imn = 2
 
 
@@ -30,11 +31,25 @@ def load_user(user_id):
     return db_sess.query(User).get(user_id)
 
 
+@app.route('/add-new-hours', methods=['GET', 'POST'])
+@login_required
+def new_hours():
+    form = NewHours()
+    if form.validate_on_submit():
+        post('http://localhost:5000/api/v1/hours/',
+             json={'create_data': str(form.create_data.data), 'hours': form.hours.data, 'where': form.where.data,
+                   'desc': form.description.data, 'userId': current_user.id}).json()
+        # create a database entry for tax
+        return redirect("/")
+    return render_template('NewHours.html', title='Добавить часы', form=form)
+
+
 # Функция вызова главной страницы сайта
 
 @app.route("/")
 def index():
     return render_template("home_page.html", title="Home Page")
+
 
 # Регистрация пользователя
 @app.route("/registration", methods=['GET', 'POST'])
@@ -105,7 +120,7 @@ def not_found(error):
 def main():
     db_session.global_init("db/Work_gen_1.db")
     #
-    # api.add_resource(articles_resources.ArticleResource, '/api/v2/art/<int:art_id>')
+    api.add_resource(hourse.Hours, '/api/v1/hours/')
     # api.add_resource(user_resources.UserResource, '/api/v2/user/<int:user_id>')
     #
     # api.add_resource(articles_resources.ArticleListResource, '/api/v2/list_art')

@@ -27,6 +27,7 @@ class User(SqlAlchemyBase, UserMixin):
                            primary_key=True, autoincrement=True)
     surname = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     name = sqlalchemy.Column(sqlalchemy.String, nullable=True)
+    salry = sqlalchemy.Column(sqlalchemy.Integer, nullable=True)
     reportPeriod = sqlalchemy.Column(sqlalchemy.DateTime)
     salaryPeriod = sqlalchemy.Column(sqlalchemy.DateTime)
     period = sqlalchemy.Column(sqlalchemy.Integer)
